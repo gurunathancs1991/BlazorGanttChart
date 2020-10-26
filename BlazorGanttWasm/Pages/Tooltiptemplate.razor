@@ -1,0 +1,381 @@
+﻿@page "/tooltiptemplate"
+@using Syncfusion.Blazor.Gantt
+
+//Tooltip
+
+<button @onclick="ShowTooltip">ShowTooltip</button>
+<span> ShowTooltip is : @showTooltip </span>
+
+<button @onclick="TimelineTooltip">TimelineTooltip</button>
+<span> TimelineTooltip is : @timelineTooltip </span>
+
+<SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="450px" Width="700px" GridLines="Syncfusion.Blazor.Gantt.GridLine.Both" HighlightWeekends="true" ShowInlineNotes="showInlineNotes">
+    <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Notes="Notes">
+    </GanttTaskFields>
+    <GanttTooltipSettings ShowTooltip="@showTooltip" TValue="TaskData">
+        <TaskbarTemplate>
+            @{
+                <div>TaskID: @context.TaskId</div>
+            }
+        </TaskbarTemplate>
+    </GanttTooltipSettings>
+    <GanttTimelineSettings ShowTooltip="@timelineTooltip"></GanttTimelineSettings>
+    <GanttEvents BeforeTooltipRender="BeforeTooltipRender" TValue="TaskData"></GanttEvents>
+</SfGantt>
+
+@code{
+    public SfGantt<TaskData> Gantt;
+    public Boolean showTooltip = true;
+    public Boolean timelineTooltip = true;
+    public Boolean showInlineNotes = false;
+    public void ShowTooltip()
+    {
+        showTooltip = showTooltip ? false : true;
+    }
+    public void TimelineTooltip()
+    {
+        timelineTooltip = timelineTooltip ? false : true;
+    }
+    public void ShowInlineNotes()
+    {
+        showInlineNotes = showInlineNotes ? false : true;
+    }
+    public void BeforeTooltipRender(BeforeTooltipRenderEventArgs<TaskData> args)
+    {
+        //args.Cancel = true;
+    }
+    public List<TaskData> TaskCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = GetTaskCollection();
+    }
+
+    public class TaskData
+    {
+        public int TaskId { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public double Duration { get; set; }
+        public double Progress { get; set; }
+        public int? ParentId { get; set; }
+        public string Notes { get; set; }
+    }
+
+    public static List<TaskData> GetTaskCollection()
+    {
+        List<TaskData> Tasks = new List<TaskData>() {
+
+        new TaskData() {
+            TaskId = 1,
+            TaskName = "Project initiation",
+            StartDate = new DateTime(2019, 04, 02),
+            EndDate = new DateTime(2019, 04, 21)
+        },
+        new TaskData() {
+            TaskId = 2,
+            TaskName = "Identify Site location",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = 0,
+            Progress = 30,
+            ParentId = 1,
+            Notes = "Measure the total property area alloted for construction\nMeasure the total property area alloted for construction"
+        },
+        new TaskData() {
+            TaskId = 3,
+            TaskName = "Perform soil test",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = 4,
+            Progress = 40,
+            ParentId = 1,
+            Notes = "Obtain an engineered soil test of lot where construction is planned.From an engineer or company specializing in soil testing"
+        },
+        new TaskData() {
+            TaskId = 4,
+            TaskName = "Soil test approval",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = 0,
+            Progress = 30,
+            ParentId = 1
+        },
+        new TaskData() {
+            TaskId = 5,
+            TaskName = "Project estimation",
+            StartDate = new DateTime(2019, 04, 02),
+            EndDate = new DateTime(2019, 04, 21)
+        },
+        new TaskData() {
+            TaskId = 6,
+            TaskName = "Develop floor plan for estimation",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = 3,
+            Progress = 30,
+            ParentId = 5,
+            Notes = "Develop floor plans and obtain a materials list for estimations"
+        },
+        new TaskData() {
+            TaskId = 7,
+            TaskName = "List materials",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = 3,
+            Progress = 40,
+            ParentId = 5,
+            Notes = ""
+        },
+        new TaskData() {
+            TaskId = 8,
+            TaskName = "Estimation approval",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = 0,
+            Progress = 30,
+            ParentId = 5
+        },
+        new TaskData() {
+            TaskId = 9,
+            TaskName = "Project initiation",
+            StartDate = new DateTime(2019, 04, 02),
+            EndDate = new DateTime(2019, 04, 21)
+        },
+        new TaskData() {
+            TaskId = 10,
+            TaskName = "Identify Site location",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = 0,
+            Progress = 30,
+            ParentId = 9
+        },
+        new TaskData() {
+            TaskId = 11,
+            TaskName = "Perform soil test",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = 4,
+            Progress = 40,
+            ParentId = 9
+        },
+        new TaskData() {
+            TaskId = 12,
+            TaskName = "Soil test approval",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = 0,
+            Progress = 30,
+            ParentId = 9
+        },
+        new TaskData() {
+            TaskId = 13,
+            TaskName = "Project estimation",
+            StartDate = new DateTime(2019, 04, 02),
+            EndDate = new DateTime(2019, 04, 21)
+        },
+        new TaskData() {
+            TaskId = 14,
+            TaskName = "Develop floor plan for estimation",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = 3,
+            Progress = 30,
+            ParentId = 13
+        },
+        new TaskData() {
+            TaskId = 15,
+            TaskName = "List materials",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = 3,
+            Progress = 40,
+            ParentId = 13
+        },
+        new TaskData() {
+            TaskId = 16,
+            TaskName = "Estimation approval",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = 0,
+            Progress = 30,
+            ParentId = 13
+        }
+    };
+        return Tasks;
+    }
+}
+
+//Taskbar Template
+
+@* <SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="450px" Width="700px">
+        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId">
+        </GanttTaskFields>
+        <GanttTemplates>
+            <TaskbarTemplate>
+                @{
+                    <div class="e-gantt-child-taskbar e-custom-moments" style="height:68px;border-radius:5px;">
+                    <span class="e-task-label" style="position:absolute;top:15px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@((context as TaskData).TaskId)</span>
+                    </div>
+                }
+            </TaskbarTemplate>
+            @* <MilestoneTemplate>
+                <div style="margin-top:-7px;">
+                    <div class="e-gantt-milestone" style="position:absolute;">
+                        <div class="e-milestone-top" style="border-right-width:26px; margin-top: -24px;border-left-width:26px;border-bottom-width:26px;"></div>
+                        <div class="e-milestone-bottom" style="top:26px;border-right-width:26px; border-left-width:26px; border-top-width:26px;"></div>
+                    </div>
+                </div>
+            </MilestoneTemplate>
+        </GanttTemplates>
+    </SfGantt>
+    <style>
+        .e-milestone-top {
+            border-bottom-color: #7ab748 !important;
+            border-bottom: 1px solid #3f51b5;
+        }
+        .e-milestone-bottom {
+            border-top-color: #7ab748 !important;
+            border-top: 1px solid #3f51b5;
+        }
+        .e-custom-moments {
+            background-color: #7ab748;
+            border: 1px solid #3f51b5;
+        }
+    </style>
+
+    @code{
+        public SfGantt<TaskData> Gantt;
+        public List<TaskData> TaskCollection { get; set; }
+        protected override void OnInitialized()
+        {
+            this.TaskCollection = GetTaskCollection();
+        }
+
+        public class TaskData
+        {
+            public int TaskId { get; set; }
+            public string TaskName { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+            public string Duration { get; set; }
+            public int Progress { get; set; }
+            public int? ParentId { get; set; }
+        }
+
+        public static List <TaskData> GetTaskCollection() {
+        List <TaskData> Tasks = new List <TaskData> () {
+
+            new TaskData() {
+                TaskId = 1,
+                TaskName = "Project initiation",
+                StartDate = new DateTime(2019, 04, 02),
+                EndDate = new DateTime(2019, 04, 21)
+            },
+            new TaskData() {
+                TaskId = 2,
+                TaskName = "Identify Site location",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = "0",
+                Progress = 30,
+                ParentId = 1,
+            },
+            new TaskData() {
+                TaskId = 3,
+                TaskName = "Perform soil test",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = "4",
+                Progress = 40,
+                ParentId = 1,
+            },
+            new TaskData() {
+                TaskId = 4,
+                TaskName = "Soil test approval",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = "0",
+                Progress = 30,
+                ParentId = 1
+            },
+            new TaskData() {
+                TaskId = 5,
+                TaskName = "Project estimation",
+                StartDate = new DateTime(2019, 04, 02),
+                EndDate = new DateTime(2019, 04, 21)
+            },
+            new TaskData() {
+                TaskId = 6,
+                TaskName = "Develop floor plan for estimation",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = "3",
+                Progress = 30,
+                ParentId = 5,
+            },
+            new TaskData() {
+                TaskId = 7,
+                TaskName = "List materials",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = "3",
+                Progress = 40,
+                ParentId = 5,
+            },
+            new TaskData() {
+                TaskId = 8,
+                TaskName = "Estimation approval",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = "0",
+                Progress = 30,
+                ParentId = 5
+            },
+            new TaskData() {
+                TaskId = 9,
+                TaskName = "Project initiation",
+                StartDate = new DateTime(2019, 04, 02),
+                EndDate = new DateTime(2019, 04, 21)
+            },
+            new TaskData() {
+                TaskId = 10,
+                TaskName = "Identify Site location",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = "0",
+                Progress = 30,
+                ParentId = 9
+            },
+            new TaskData() {
+                TaskId = 11,
+                TaskName = "Perform soil test",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = "4",
+                Progress = 40,
+                ParentId = 9
+            },
+            new TaskData() {
+                TaskId = 12,
+                TaskName = "Soil test approval",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = "0",
+                Progress = 30,
+                ParentId = 9
+            },
+            new TaskData() {
+                TaskId = 13,
+                TaskName = "Project estimation",
+                StartDate = new DateTime(2019, 04, 02),
+                EndDate = new DateTime(2019, 04, 21)
+            },
+            new TaskData() {
+                TaskId = 14,
+                TaskName = "Develop floor plan for estimation",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = "3",
+                Progress = 30,
+                ParentId = 13
+            },
+            new TaskData() {
+                TaskId = 15,
+                TaskName = "List materials",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = "3",
+                Progress = 40,
+                ParentId = 13
+            },
+            new TaskData() {
+                TaskId = 16,
+                TaskName = "Estimation approval",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = "0",
+                Progress = 30,
+                ParentId = 13
+            }
+        };
+        return Tasks;
+    }
+    } *@
