@@ -1,0 +1,112 @@
+@page "/flatDataExport"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor
+
+    
+    <SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="600px" Width="700px" AllowExcelExport="true" Toolbar="@(new List<string>() { "ExcelExport" , "CsvExport" })">
+        <GanttTaskFields ParentID="ParentId" Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress">
+        </GanttTaskFields>
+        <GanttEvents OnToolbarClick="ToolbarClickHandler" TValue="TaskData"></GanttEvents>
+        
+    </SfGantt>
+
+@code{
+
+    public SfGantt<TaskData> Gantt;
+
+    
+    public List<TaskData> TaskCollection { get; set; }
+
+     public void ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+       
+        if (args.Item.Text == "Excel export")
+        {
+            this.Gantt.ExcelExport();
+        }else if(args.Item.Text=="CSV export"){
+            this.Gantt.CsvExport();
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = GetTaskCollection();
+    }
+   
+
+    public class TaskData
+    {
+        public int TaskId { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public int Progress { get; set; }
+        public int? ParentId{ get;set;}
+        
+    }
+
+    public static List <TaskData> GetTaskCollection() {
+    List <TaskData> Tasks = new List <TaskData> ();
+        Tasks.Add(new TaskData() {
+            TaskId = 1,
+            TaskName = "Project initiation",
+            StartDate = new DateTime(2019, 05, 01),
+            EndDate = new DateTime(2019, 05, 10),
+            Duration = "10",
+            Progress = 30,
+            ParentId=null
+        
+        });
+        Tasks.Add(new TaskData() {
+            TaskId = 2,
+            TaskName = "Perform soil test 10",
+            StartDate = new DateTime(2019, 05, 12),
+            EndDate = new DateTime(2019, 05, 21),
+            Duration = "11",
+            Progress = 40,
+            ParentId=1
+        });
+        Tasks.Add(new TaskData() {
+            TaskId = 3,
+            TaskName = "Identify Site location",
+            StartDate = new DateTime(2019, 05, 21),
+            EndDate = new DateTime(2019, 05, 30),
+            Duration = "4",
+            Progress = 20,
+            ParentId=2
+        });
+        Tasks.Add(new TaskData() {
+            TaskId = 4,
+            TaskName = "Project estimation",
+            StartDate = new DateTime(2019, 06, 02),
+            EndDate = new DateTime(2019, 06, 21),
+            Duration = "21",
+            Progress = 10,
+            ParentId=null
+        
+        });
+        Tasks.Add(new TaskData() {
+            TaskId = 5,
+            TaskName = "Develop floor plan for estimation",
+            StartDate = new DateTime(2019, 06, 21),
+            EndDate = new DateTime(2019, 06, 30),
+            Duration = "9",
+            Progress = 60,
+            ParentId=null
+        });
+        Tasks.Add(new TaskData() {
+            TaskId = 6,
+            TaskName = "Estimation approval",
+            StartDate = new DateTime(2019, 07, 02),
+            EndDate = new DateTime(2019, 07, 21),
+            Duration = "19",
+            Progress = 40,
+            ParentId=5
+        });
+        return Tasks;
+    }
+   
+}

@@ -1,14 +1,14 @@
-﻿@page "/filteringflatdata"
+@page "/flatDataSpecificColumnSearching"
 
 @using Syncfusion.Blazor.Gantt
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor
 
-    
-    <SfGantt DataSource="@TaskCollection" Height="600px" Width="700px" AllowFiltering="true">
+    <SfGantt  DataSource="@TaskCollection" Height="600px" Width="700px" >
         <GanttTaskFields ParentID="ParentId" Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress">
         </GanttTaskFields>
-        
+        <GanttSearchSettings Fields="@(new string[] { "TaskId" })" Operator="Operator.Contains"
+          Key="1" IgnoreCase="true"></GanttSearchSettings>
     </SfGantt>
 
 @code{
@@ -62,7 +62,7 @@
             TaskName = "Identify Site location",
             StartDate = new DateTime(2019, 05, 21),
             EndDate = new DateTime(2019, 05, 30),
-            Duration = "4",
+            Duration = "9",
             Progress = 20,
             ParentId=2
         });
