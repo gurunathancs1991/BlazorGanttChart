@@ -1,0 +1,123 @@
+﻿@page "/Events"
+
+@using Syncfusion.Blazor.Gantt
+<SfGantt DataSource="@TaskCollection" Height="450px" Width="700px">
+    <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId">
+    </GanttTaskFields>
+    <GanttEvents QueryChartRowInfo="QueryChartRowInfo" QueryCellInfo="QueryCellInfo" RowDataBound="RowDataBound" TValue="TaskData"></GanttEvents>
+</SfGantt>
+
+<style>
+    .intro {
+        background-color: #336c12;
+        color: white;
+    }
+</style>
+
+@code{
+    public void QueryChartRowInfo(IQueryChartRowInfoEventArgs<TaskData> args)
+    {
+        String[] s1 = new String[1] { "intro" };
+        args.Row.AddClass(s1);
+    }
+    public void QueryCellInfo(Syncfusion.Blazor.Grids.QueryCellInfoEventArgs<TaskData> args)
+    {
+        if (args.Column.Field == "Progress" && args.Data.Progress == 30)
+        {
+            String[] s1 = new String[1] { "intro" };
+            args.Cell.AddClass(s1);
+        }
+    }
+    public void RowDataBound(Syncfusion.Blazor.Grids.RowDataBoundEventArgs<TaskData> args)
+    {
+        if (args.Data.TaskId == 1)
+        {
+            String[] s1 = new String[1] { "intro" };
+            args.Row.AddClass(s1);
+        }
+    }
+    public List<TaskData> TaskCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = GetTaskCollection();
+    }
+
+    public class TaskData
+    {
+        public int TaskId { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public int Progress { get; set; }
+        public int? ParentId { get; set; }
+    }
+
+    public static List<TaskData> GetTaskCollection()
+    {
+        List<TaskData> Tasks = new List<TaskData>() {
+
+        new TaskData() {
+            TaskId = 1,
+            TaskName = "Project initiation",
+            StartDate = new DateTime(2019, 04, 02),
+            EndDate = new DateTime(2019, 04, 21)
+        },
+        new TaskData() {
+            TaskId = 2,
+            TaskName = "Identify Site location",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = "0",
+            Progress = 30,
+            ParentId = 1
+        },
+        new TaskData() {
+            TaskId = 3,
+            TaskName = "Perform soil test",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = "4",
+            Progress = 40,
+            ParentId = 1
+        },
+        new TaskData() {
+            TaskId = 4,
+            TaskName = "Soil test approval",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = "0",
+            Progress = 30,
+            ParentId = 1
+        },
+        new TaskData() {
+            TaskId = 5,
+            TaskName = "Project estimation",
+            StartDate = new DateTime(2019, 04, 02),
+            EndDate = new DateTime(2019, 04, 21)
+        },
+        new TaskData() {
+            TaskId = 6,
+            TaskName = "Develop floor plan for estimation",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = "3",
+            Progress = 30,
+            ParentId = 5
+        },
+        new TaskData() {
+            TaskId = 7,
+            TaskName = "List materials",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = "3",
+            Progress = 40,
+            ParentId = 5
+        },
+        new TaskData() {
+            TaskId = 8,
+            TaskName = "Estimation approval",
+            StartDate = new DateTime(2019, 04, 04),
+            Duration = "0",
+            Progress = 30,
+            ParentId = 5
+        }
+    };
+        return Tasks;
+    }
+}
