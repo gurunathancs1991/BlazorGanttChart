@@ -4,12 +4,18 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor
 
-    <SfGantt  DataSource="@TaskCollection" Height="600px" Width="700px" Toolbar="@(new List<string>() { "Search" })">
+<button @onclick="Search">Search</button>
+    <SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="600px" Width="700px" Toolbar="@(new List<string>() { "Search" })">
         <GanttTaskFields ParentID="ParentId" Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress">
         </GanttTaskFields>
     </SfGantt>
 
 @code{
+    public SfGantt<TaskData> Gantt;
+    public void Search()
+    {
+        this.Gantt.Search("project");
+    }
 
 
     public List<TaskData> TaskCollection { get; set; }
@@ -20,7 +26,7 @@
     {
         this.TaskCollection = GetTaskCollection();
     }
-   
+
 
     public class TaskData
     {
@@ -31,11 +37,11 @@
         public string Duration { get; set; }
         public int Progress { get; set; }
         public int? ParentId{ get;set;}
-        
+
     }
 
     public static List <TaskData> GetTaskCollection() {
-    List <TaskData> Tasks = new List <TaskData> ();
+        List <TaskData> Tasks = new List <TaskData> ();
         Tasks.Add(new TaskData() {
             TaskId = 1,
             TaskName = "Project initiation",
@@ -44,7 +50,7 @@
             Duration = "10",
             Progress = 30,
             ParentId=null
-        
+
         });
         Tasks.Add(new TaskData() {
             TaskId = 2,
@@ -72,7 +78,7 @@
             Duration = "21",
             Progress = 10,
             ParentId=null
-        
+
         });
         Tasks.Add(new TaskData() {
             TaskId = 5,
@@ -94,6 +100,6 @@
         });
         return Tasks;
     }
-    
-   
+
+
 }
