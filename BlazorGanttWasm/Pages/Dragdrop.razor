@@ -37,11 +37,6 @@
         this.TaskCollection = GetTaskCollection();
     }
 
-    private async Task click()
-    {
-        await ganttobj.ReorderColumns(new List<string>() { "Duration" }, "TaskName");
-    }
-
     private async Task Drop(RowDragEventArgs<TaskData> args)
     {
         args.Cancel = condition;
